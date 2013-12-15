@@ -40,9 +40,6 @@ public class DocController {
 	@Autowired
 	private MessageSource messageSource;
 	
-	@Value("${file.path}")
-	private String PATH_FILE;
-	
 	@RequestMapping(value = "/files", method = RequestMethod.GET)
 	@ResponseBody
 	public ModelAndView getFile(@RequestParam Integer idFile, HttpServletResponse resp, HttpServletRequest request, RedirectAttributes redirectAttributes){
@@ -53,7 +50,7 @@ public class DocController {
 			redirectAttributes.addFlashAttribute("messageErreur", "fichier.download.erreur");
 			return mv;
 		}
-		File file = new File(PATH_FILE + document.getNomFichier());
+		File file = new File(document.getNomFichier());
 		InputStream inputStream = null;
 		OutputStream outputStream = null;
 		try {
