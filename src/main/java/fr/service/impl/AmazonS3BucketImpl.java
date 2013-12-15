@@ -7,9 +7,10 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
@@ -25,14 +26,16 @@ import fr.service.AmazonS3Bucket;
 @Service
 public class AmazonS3BucketImpl implements AmazonS3Bucket{
 	
+	@Value("${amazon.bucket}")
+	private String BUCKET_NAME;
+	
 	@Override
-	public void saveFileInbucket(CommonsMultipartFile multipartFile,
+	public void saveFileInbucket(MultipartFile multipartFile,
 			String nomFichier) throws IOException {
 		AmazonS3 s3 = new AmazonS3Client(
 				new ClasspathPropertiesFileCredentialsProvider());
 		Region usWest2 = Region.getRegion(Regions.US_WEST_2);
 		s3.setRegion(usWest2);
-		String bucketName = "projetdemo";
 		byte[] contentBytes = null;
 		InputStream is = null;
 		try {
@@ -45,7 +48,7 @@ public class AmazonS3BucketImpl implements AmazonS3Bucket{
 
 		try {
 			// s3.createBucket(bucketName);
-			PutObjectRequest request = new PutObjectRequest(bucketName,
+			PutObjectRequest request = new PutObjectRequest(BUCKET_NAME,
 					nomFichier, createSampleFile(nomFichier, contentBytes));
 			s3.putObject(request);
 		} catch (AmazonServiceException ase) {

@@ -25,22 +25,24 @@ import fr.service.UserService;
 
 @ContextConfiguration(locations = { "classpath:/META-INF/applicationContext-test.xml" })
 @WebAppConfiguration
-
-public class ModifierUserControllerTest  extends AbstractJUnit4SpringContextTests {
+public class ModifierUserControllerTest extends
+		AbstractJUnit4SpringContextTests {
 
 	ModifierUserController modifierUserController;
-	
+
 	@Autowired
-	private UserService userService ; 
-	
+	private UserService userService;
+
 	@Before
 	public void setup() {
 		userService = EasyMock.createMock(UserService.class);
 		modifierUserController = new ModifierUserController();
-		ReflectionTestUtils.setField(modifierUserController, "userService", userService);
+		ReflectionTestUtils.setField(modifierUserController, "userService",
+				userService);
 		reset(userService);
 	}
-	@Test    
+
+	@Test
 	public void display() {
 		User user = new User();
 		user.setPassword("pwd");
@@ -51,7 +53,8 @@ public class ModifierUserControllerTest  extends AbstractJUnit4SpringContextTest
 		verify(userService);
 		assertEquals(user, mav.getModel().get("user"));
 		assertEquals("welcomeModifierUser", mav.getViewName());
-	    }
+	}
+
 	@Test
 	public void testModifierUser_form_ok() {
 		User user = new User();
@@ -62,40 +65,41 @@ public class ModifierUserControllerTest  extends AbstractJUnit4SpringContextTest
 		user.setFirstName("first");
 		user.setLastName("lastname");
 		expect(userService.getCurrentUser()).andReturn(user);
-		
-		userService.updateUser(user);
-	    EasyMock.expectLastCall();
 
-	    replay(userService);
-//		BindingResult errors = new BindException(user, "user");
+		userService.updateUser(user);
+		EasyMock.expectLastCall();
+
+		replay(userService);
+		// BindingResult errors = new BindException(user, "user");
 		ModelMap model = new ModelMap();
 		ModelAndView mav = modifierUserController.modifierUser(user, model);
-		
+
 		verify(userService);
 		assertEquals("modifierUser_ok", mav.getViewName());
 	}
-	
+
 	@Test
 	public void testModifierUser_password_ko() {
 		User user = new User();
 		user.setPassword("test1");
 		user.setVerifyPassword("test2");
-		
+
 		user.setEmail("test@test.fr");
 		user.setFirstName("first");
 		user.setLastName("lastname");
-		
+
 		replay(userService);
-		
+
 		BindingResult errors = new BindException(user, "user");
 		ModelMap model = new ModelMap();
-		ModelAndView mav = modifierUserController.modifierUser( user, model);
+		ModelAndView mav = modifierUserController.modifierUser(user, model);
 		verify(userService);
 		assertEquals(0, errors.getAllErrors().size());
-		assertEquals("user.info.password.not.matching", mav.getModel().get("messageErreur"));
+		assertEquals("user.info.password.not.matching",
+				mav.getModel().get("messageErreur"));
 		assertEquals("welcomeModifierUser", mav.getViewName());
 	}
-	
+
 	@Test
 	public void testRegister_password_absent() {
 		User user = new User();
@@ -103,13 +107,14 @@ public class ModifierUserControllerTest  extends AbstractJUnit4SpringContextTest
 		user.setEmail("test@test.fr");
 		user.setFirstName("first");
 		user.setLastName("lastname");
-		
+
 		replay(userService);
-		
+
 		ModelMap model = new ModelMap();
 		ModelAndView mav = modifierUserController.modifierUser(user, model);
 		verify(userService);
-		assertEquals("user.info.champs.obligatoire", mav.getModel().get("messageErreur"));
+		assertEquals("user.info.champs.obligatoire",
+				mav.getModel().get("messageErreur"));
 		assertEquals("welcomeModifierUser", mav.getViewName());
 	}
 

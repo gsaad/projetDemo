@@ -30,76 +30,78 @@ import fr.service.UserService;
 
 @ContextConfiguration(locations = { "classpath:/META-INF/applicationContext-test.xml" })
 @WebAppConfiguration
-
-public class LoginControllerTest  extends AbstractJUnit4SpringContextTests {
+public class LoginControllerTest extends AbstractJUnit4SpringContextTests {
 
 	LoginController loginController;
-	
+
 	@Autowired
-	private UserService userService ; 
-	
+	private UserService userService;
+
 	@Autowired
-	private DocumentService documentService ; 
-	
+	private DocumentService documentService;
+
 	@Before
 	public void setup() {
 		userService = EasyMock.createMock(UserService.class);
 		documentService = EasyMock.createMock(DocumentService.class);
 		loginController = new LoginController();
-		ReflectionTestUtils.setField(loginController, "userService", userService);
-		ReflectionTestUtils.setField(loginController, "documentService", documentService);
+		ReflectionTestUtils.setField(loginController, "userService",
+				userService);
+		ReflectionTestUtils.setField(loginController, "documentService",
+				documentService);
 		reset(userService);
 		reset(documentService);
 	}
-	
+
 	@Test
 	public void testLogin_user_connecte() {
 		User user = new User();
 		user.setPassword("pwd");
 		user.setLogin("login1");
 		expect(userService.getCurrentUser()).andReturn(user);
-		
+
 		Document doc = new Document();
 		doc.setPk(1);
 		doc.setIntitule("passeport");
 		List<Document> listDocument = new ArrayList<Document>();
 		listDocument.add(doc);
-		expect(documentService.findListDocumentByLogin(anyObject(String.class))).andReturn(null);
-		
+		expect(documentService.findListDocumentByLogin(anyObject(String.class)))
+				.andReturn(null);
+
 		replay(userService);
-		
-		
+
 		RedirectAttributes redirectAttr = new RedirectAttributesModelMap();
 		ModelAndView mav = loginController.login(redirectAttr);
 		verify(userService);
 		assertEquals("redirect:/listeDocs", mav.getViewName());
 	}
-	
+
 	@Test
 	public void testLogin_user_non_connecte() {
-		
+
 		expect(userService.getCurrentUser()).andReturn(null);
 		replay(userService);
-		
+
 		RedirectAttributes redirectAttr = new RedirectAttributesModelMap();
 		ModelAndView mav = loginController.login(redirectAttr);
 		verify(userService);
-		
+
 		assertEquals(new User(), mav.getModel().get("user"));
 		assertEquals("accueilLogin", mav.getViewName());
 	}
 
 	@Test
 	public void testLoginFailed() {
-		ModelMap model = new ModelMap(); 
+		ModelMap model = new ModelMap();
 		ModelAndView mv = loginController.loginfailed(model);
 		assertEquals("accueilLogin", mv.getViewName());
 	}
+
 	@Test
 	public void testLogout() {
-		ModelMap model = new ModelMap(); 
+		ModelMap model = new ModelMap();
 		String view = loginController.logout(model);
 		assertEquals("accueilLogin", view);
 	}
-	
+
 }

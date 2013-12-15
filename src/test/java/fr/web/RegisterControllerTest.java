@@ -25,26 +25,28 @@ import fr.service.UserService;
 
 @ContextConfiguration(locations = { "classpath:/META-INF/applicationContext-test.xml" })
 @WebAppConfiguration
-
-public class RegisterControllerTest  extends AbstractJUnit4SpringContextTests {
+public class RegisterControllerTest extends AbstractJUnit4SpringContextTests {
 
 	RegisterController registerController;
 	@Autowired
-	private UserService userService ; 
-	
+	private UserService userService;
+
 	@Before
 	public void setup() {
 		userService = EasyMock.createMock(UserService.class);
 		registerController = new RegisterController();
-		ReflectionTestUtils.setField(registerController, "userService", userService);
+		ReflectionTestUtils.setField(registerController, "userService",
+				userService);
 		reset(userService);
 	}
+
 	@Test
 	public void testDisplay() {
 		ModelAndView mav = registerController.display();
 		assertEquals("accueilRegister", mav.getViewName());
 		assertEquals(1, mav.getModel().size());
-		assertEquals(new fr.persistence.domain.User(),(fr.persistence.domain.User)mav.getModel().get("user"));
+		assertEquals(new fr.persistence.domain.User(),
+				(fr.persistence.domain.User) mav.getModel().get("user"));
 	}
 
 	@Test
@@ -56,19 +58,19 @@ public class RegisterControllerTest  extends AbstractJUnit4SpringContextTests {
 		user.setEmail("test@test.fr");
 		user.setFirstName("first");
 		user.setLastName("lastname");
-		
+
 		userService.createUser(user);
-	    EasyMock.expectLastCall();
+		EasyMock.expectLastCall();
 
 		expect(userService.findUser("login1")).andReturn(null);
 		replay(userService);
-		
+
 		ModelMap model = new ModelMap();
 		ModelAndView mav = registerController.register(user, model);
 		verify(userService);
 		assertEquals("register_ok", mav.getViewName());
 	}
-	
+
 	@Test
 	public void testRegister_donnees_ko() {
 		User user = new User();
@@ -79,10 +81,11 @@ public class RegisterControllerTest  extends AbstractJUnit4SpringContextTests {
 		user.setLastName("lastname");
 		ModelMap model = new ModelMap();
 		ModelAndView mav = registerController.register(user, model);
-		assertEquals("user.info.champs.obligatoire", mav.getModel().get("messageErreur"));
+		assertEquals("user.info.champs.obligatoire",
+				mav.getModel().get("messageErreur"));
 		assertEquals("accueilRegister", mav.getViewName());
 	}
-	
+
 	@Test
 	public void testRegister_password_ko() {
 		User user = new User();
@@ -92,17 +95,18 @@ public class RegisterControllerTest  extends AbstractJUnit4SpringContextTests {
 		user.setEmail("test@test.fr");
 		user.setFirstName("first");
 		user.setLastName("lastname");
-		
+
 		expect(userService.findUser("login1")).andReturn(null);
 		replay(userService);
-		
+
 		ModelMap model = new ModelMap();
 		ModelAndView mav = registerController.register(user, model);
 		verify(userService);
-		assertEquals("user.info.password.not.matching", mav.getModel().get("messageErreur"));
+		assertEquals("user.info.password.not.matching",
+				mav.getModel().get("messageErreur"));
 		assertEquals("accueilRegister", mav.getViewName());
 	}
-	
+
 	@Test
 	public void testRegister_password_login_existe() {
 		User user = new User();
@@ -112,14 +116,15 @@ public class RegisterControllerTest  extends AbstractJUnit4SpringContextTests {
 		user.setEmail("test@test.fr");
 		user.setFirstName("first");
 		user.setLastName("lastname");
-		
+
 		expect(userService.findUser("login1")).andReturn(user);
 		replay(userService);
-		
+
 		ModelMap model = new ModelMap();
 		ModelAndView mav = registerController.register(user, model);
 		verify(userService);
-		assertEquals("user.info.utilisateur.attribue", mav.getModel().get("messageErreur"));
+		assertEquals("user.info.utilisateur.attribue",
+				mav.getModel().get("messageErreur"));
 		assertEquals("accueilRegister", mav.getViewName());
 	}
 

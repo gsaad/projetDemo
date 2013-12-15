@@ -9,12 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -54,7 +52,6 @@ public class DocController {
 		InputStream inputStream = null;
 		OutputStream outputStream = null;
 		try {
-			
 			inputStream = new FileInputStream(file);
 			String mimetype =  request.getSession().getServletContext().getMimeType(file.getName());
 		    resp.setContentType(mimetype);
@@ -102,14 +99,6 @@ public class DocController {
 		}else{
 			return "redirect:/login";
 		}
-	}
-	
-	@RequestMapping("/updateForm")
-	public String updateForm(ModelMap model) {
-		model.addAttribute("messageConfirmation", this.messageSource.getMessage(
-				"document.confirmation.modification",
-				new Object[] { }, null));
-		return "redirect:/listeDocs";
 	}
 	
 	@RequestMapping(value = "/addDocForm", method = RequestMethod.POST)

@@ -1,31 +1,30 @@
 package fr.web.form;
 
-import java.io.Serializable;
-
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
 import fr.persistence.domain.User;
 
 
-public class DocumentForm implements Serializable {
+public class DocumentForm {
 	private String name;
-	private CommonsMultipartFile fileData;
+	private MultipartFile fileData;
 	private String intituleDocument;
 	private Long idTypeDocument;
 	private String nomFichier;
 	private Long mois;
 	private Long annee;
 	private User User;
+	
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
-	public CommonsMultipartFile getFileData() {
+	public MultipartFile getFileData() {
 		return fileData;
 	}
-	public void setFileData(CommonsMultipartFile fileData) {
+	public void setFileData(MultipartFile fileData) {
 		this.fileData = fileData;
 	}
 	public String getIntituleDocument() {
@@ -64,7 +63,4 @@ public class DocumentForm implements Serializable {
 	public void setUser(User user) {
 		User = user;
 	}
-	
-
-	
 }

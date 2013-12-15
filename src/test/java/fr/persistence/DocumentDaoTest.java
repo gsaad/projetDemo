@@ -3,7 +3,8 @@ package fr.persistence;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,17 +25,17 @@ public class DocumentDaoTest extends AbstractUnitTest {
 	private DocumentDao documentDao;
 	
 	@Test
-	public void findlistdocumentbyuserok(){
+	public void testFindlistdocumentbyuserok(){
 		assertEquals(5, documentDao.findListDocumentByLogin("test_login1").size());
 	}
 	
 	@Test
-	public void findlistdocumentbyuserko(){
+	public void testFindlistdocumentbyuserko(){
 		assertEquals(0, documentDao.findListDocumentByLogin("test_ko").size());
 	}
 	
 	@Test
-	public void  addDocument(){
+	public void  testAddDocument(){
 		Document document = new Document();
 		document.setIntitule("intitule");
 		document.setNomFichier("nom fichier");
@@ -54,7 +55,7 @@ public class DocumentDaoTest extends AbstractUnitTest {
 	}
 	
 	@Test
-	public void updateDocument(){
+	public void testUpdateDocument(){
 		Document doc = documentDao.getDocument(1, "test_login1");
 		assertEquals("passeport 1", doc.getIntitule());
 		doc.setIntitule("modif");
@@ -64,7 +65,7 @@ public class DocumentDaoTest extends AbstractUnitTest {
 	}
 	
 	@Test
-	public void removeDocument(){
+	public void testRemoveDocument(){
 		Document doc = documentDao.getDocument(1, "test_login1");
 		assertEquals("passeport 1", doc.getIntitule());
 		documentDao.removeDocument(doc);
@@ -73,9 +74,16 @@ public class DocumentDaoTest extends AbstractUnitTest {
 	}
 
 	@Test
-	public void getDocument(){
+	public void testGetDocument(){
 		Document doc = documentDao.getDocument(1, "test_login1");
 		assertNotNull(doc);
 		assertEquals("passeport 1", doc.getIntitule());
 	}
+	
+	@Test
+	public void testFindAllTypeDocument(){
+		List<TypeDocument> listeTypeDoc = documentDao.findAllTypeDocument();
+		assertEquals(3, listeTypeDoc.size());
+	}
+	
 }
