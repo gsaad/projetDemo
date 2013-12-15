@@ -38,8 +38,8 @@
 						<td><c:out value=" ${document.libelleMois}"></c:out></td>
 						<td><c:out value=" ${document.annee}"></c:out></td>
 						<td class="center">
-							<a href="<%=request.getContextPath()%>/document/files/${document.pk}" target="_blank">   <i class="icon-file"></i></a>
-							<a href="<%=request.getContextPath()%>/document/update?idDocument=${document.pk}">   <i class="icon-pencil"></i></a> 
+							<a href="<%=request.getContextPath()%>/document/files?idFile=${document.pk}" target="_blank">   <i class="icon-file"></i></a>
+							<%-- <a href="<%=request.getContextPath()%>/document/update?idDocument=${document.pk}">   <i class="icon-pencil"></i></a> --%> 
 							<a href="#" data-target="#modal-item" data-toggle="modal" class="modal-link" id ="<%=request.getContextPath()%>/document/delete?idDocument=${document.pk}"><i class="icon-trash"></i></a>
 						</td>
 					</tr>

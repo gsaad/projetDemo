@@ -43,13 +43,17 @@ public class DocController {
 	@Value("${file.path}")
 	private String PATH_FILE;
 	
-	@RequestMapping(value = "/files/{idFile}", method = RequestMethod.GET)
+	@RequestMapping(value = "/files", method = RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView getFile(@PathVariable("idFile") Integer idFile, HttpServletResponse resp, HttpServletRequest request, RedirectAttributes redirectAttributes){
+	public ModelAndView getFile(@RequestParam Integer idFile, HttpServletResponse resp, HttpServletRequest request, RedirectAttributes redirectAttributes){
 		Document document = documentService.getDocument(idFile, userService
 				.getCurrentUser().getLogin());
-		File file = new File(PATH_FILE + document.getNomFichier());
 		ModelAndView mv = new ModelAndView("redirect:/listeDocs");
+		if(document == null){
+			redirectAttributes.addFlashAttribute("messageErreur", "fichier.download.erreur");
+			return mv;
+		}
+		File file = new File(PATH_FILE + document.getNomFichier());
 		InputStream inputStream = null;
 		OutputStream outputStream = null;
 		try {
@@ -70,6 +74,7 @@ public class DocController {
 			Long fileSize = file.length();
 			resp.setContentLength(fileSize.intValue());
 		} catch (IOException e) {
+			e.printStackTrace();
 			redirectAttributes.addFlashAttribute("messageErreur", "fichier.download.erreur");
 			return mv;
 		}finally{
@@ -131,6 +136,7 @@ public class DocController {
 										.getIntituleDocument() }, null));
 				return mav;
 			} catch (IOException e) {
+				e.printStackTrace();
 				ModelAndView mav = new ModelAndView("redirect:/document/addDocForm");
 				redirectAttributes.addFlashAttribute("messageErreur", this.messageSource.getMessage(
 						"fichier.download.erreur",

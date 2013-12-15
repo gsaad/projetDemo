@@ -20,7 +20,7 @@
 </head>
 	<!-- Navigation Bar -->
 	<div class="navbar navbar-inverse navbar-fixed-top">
-			<jsp:include page="head_accueil.jsp" />
+			<jsp:include page="head_user.jsp" />
 	</div>
 
   <div class="bs-example bs-example-tabs">

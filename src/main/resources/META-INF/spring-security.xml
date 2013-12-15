@@ -26,7 +26,7 @@
 	<http >
 		<intercept-url pattern="/resources/**" access="ROLE_ANONYMOUS,ROLE_USER" />	
 		<intercept-url pattern="/document/**" access="ROLE_ANONYMOUS,ROLE_USER" />		
-		<intercept-url pattern="/login" access="ROLE_ANONYMOUS,ROLE_USER" />
+		<intercept-url pattern="/login*" access="ROLE_ANONYMOUS,ROLE_USER" />
 		<intercept-url pattern="/register" access="ROLE_ANONYMOUS" />
 		<intercept-url pattern="/**" access="ROLE_USER" />
 		
@@ -36,8 +36,9 @@
         </session-management>
 		<form-login login-page="/login" default-target-url="/login"
 			authentication-failure-url="/loginfailed" />
+			
 		<logout logout-success-url="/logout" />
-		 <access-denied-handler error-page="/login"/>
+		 <!-- <access-denied-handler error-page="/loginfailed"/>  -->
 	</http>
 	
   <beans:bean id="bCryptPasswordEncoder" class='org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder'/>
@@ -47,5 +48,4 @@
           	<password-encoder ref="bCryptPasswordEncoder"/>
         </authentication-provider>
     </authentication-manager> 
-   
 </beans:beans>
