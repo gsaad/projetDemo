@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+ 
+       <tuser
+    	login ="test_login"
+    	email ="email_login"
+    	firstName="firstname_login"
+    	lastName="lastname_login"
+    	password="$2a$10$9s78mxislH/M7uzOYTJ5AO/9OInxoEHorPIbBOBVKUOntYcpNaY/y"
+    	enabled="1"
+    	/>
+    	
+    	<tuser
+    	login ="test_login1"
+    	email ="email_login1@test.fr"
+    	firstName="firstname_login1"
+    	lastName="lastname_login1"
+    	password="$2a$10$9s78mxislH/M7uzOYTJ5AO/9OInxoEHorPIbBOBVKUOntYcpNaY/y"
+    	enabled="1"
+    	/>
+		<tuser
+    	login ="test_login2"
+    	email ="email_login2"
+    	firstName="firstname_login2"
+    	lastName="lastname_login2"
+    	password="$2a$10$9s78mxislH/M7uzOYTJ5AO/9OInxoEHorPIbBOBVKUOntYcpNaY/y"
+    	enabled="0"
+    	/>
+    	
+    	<tuser
+    	login ="test_login3"
+    	email ="email_login3"
+    	firstName="firstname_login3"
+    	lastName="lastname_login3"
+    	password="$2a$10$9s78mxislH/M7uzOYTJ5AO/9OInxoEHorPIbBOBVKUOntYcpNaY/y"
+    	enabled="0"
+    	/>
+    	
+    	<tuser
+    	login ="test_login4"
+    	email ="email_login4"
+    	firstName="firstname_login4"
+    	lastName="lastname_login4"
+    	password="$2a$10$9s78mxislH/M7uzOYTJ5AO/9OInxoEHorPIbBOBVKUOntYcpNaY/y"
+    	enabled="0"
+    	/>    	
+	<role
+		pk="1" 
+		role = "ROLE_USER"
+	/>
+	<role
+		pk="2" 
+		role = "ROLE_ADMIN"
+	/>
+	
+ 	<tuser_role
+		login="test_login1"
+		pk="1"
+	/>
+	<tuser_role
+		login="test_login1"
+		pk="2"
+	/>
+	
+	<TYPE_DOCUMENT
+		ID_TYPE_DOCUMENT = "1"
+		LIBELLE_TYPE_DOCUMENT = "libelle type 1"
+	/>
+	<TYPE_DOCUMENT
+		ID_TYPE_DOCUMENT = "2"
+		LIBELLE_TYPE_DOCUMENT = "libelle type 2"
+	/>
+	<TYPE_DOCUMENT
+		ID_TYPE_DOCUMENT = "3"
+		LIBELLE_TYPE_DOCUMENT = "libelle type 3"
+	/>
+	<DOCUMENT
+		pk = "1"
+	 	intitule ="passeport 1"
+		mois ="12"
+		annee = "2013"
+		ID_TYPE_DOCUMENT = "1"
+		LOGIN = "test_login1"
+	/>
+	<DOCUMENT
+		pk = "2"
+	 	intitule ="passeport 2"
+		mois ="02"
+		annee = "2013"
+		ID_TYPE_DOCUMENT = "1"
+		LOGIN = "test_login1"
+	/>
+	<DOCUMENT
+		pk = "3"
+	 	intitule ="passeport 3"
+		mois ="12"
+		annee = "2013"
+		ID_TYPE_DOCUMENT = "1"
+		LOGIN = "test_login1"
+	/>
+	<DOCUMENT
+		pk = "4"
+	 	intitule ="passeport 4"
+		mois ="12"
+		annee = "2013"
+		ID_TYPE_DOCUMENT = "1"
+		LOGIN = "test_login1"
+	/>
+	<DOCUMENT
+		pk = "5"
+	 	intitule ="passeport 5"
+		mois ="12"
+		annee = "2013"
+		ID_TYPE_DOCUMENT = "1"
+		LOGIN = "test_login1"
+	/>
+</dataset>

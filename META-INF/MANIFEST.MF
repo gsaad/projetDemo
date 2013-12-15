@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: projetDemo
+Bundle-SymbolicName: projetDemo
+Bundle-Version: 1.0.0.qualifier
+Export-Package: fr.persistence,
+ fr.persistence.dao,
+ fr.persistence.dao.impl,
+ fr.persistence.domain,
+ fr.security,
+ fr.service,
+ fr.service.impl,
+ fr.web,
+ fr.web.form
