@@ -33,12 +33,12 @@ public class User implements Serializable{
     private String login;
     
     @Column
-    @Size(min = 5)
+    @Size(min = 1)
     private String password;
 
     
     @Transient
-    @Size(min = 5, max = 50)
+    @Size(min = 1, max = 50)
     private String verifyPassword;
 
     @Column
@@ -50,7 +50,7 @@ public class User implements Serializable{
     private String lastName;
 
     @Column
-    @Size(min = 0, max = 150)
+    @Size(min = 1, max = 150)
     @Email
     private String email;
 
@@ -63,10 +63,8 @@ public class User implements Serializable{
     @Column
     private boolean enabled;
     
-
-
     @Column
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
     	      name="tuser_role",
     	      joinColumns={@JoinColumn(name="login", referencedColumnName="login")},

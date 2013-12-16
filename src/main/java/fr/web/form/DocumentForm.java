@@ -1,5 +1,6 @@
 package fr.web.form;
 
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import fr.persistence.domain.User;
@@ -11,8 +12,7 @@ public class DocumentForm {
 	private String intituleDocument;
 	private Long idTypeDocument;
 	private String nomFichier;
-	private Long mois;
-	private Long annee;
+	private String periode;
 	private User User;
 	
 	public String getName() {
@@ -45,22 +45,30 @@ public class DocumentForm {
 	public void setNomFichier(String nomFichier) {
 		this.nomFichier = nomFichier;
 	}
-	public Long getMois() {
-		return mois;
+	public Integer getMois() {
+		if(StringUtils.isEmpty(periode)){
+			return null;
+		}else{
+			return Integer.valueOf(periode.split("/")[0]);
+		}
 	}
-	public void setMois(Long mois) {
-		this.mois = mois;
-	}
-	public Long getAnnee() {
-		return annee;
-	}
-	public void setAnnee(Long annee) {
-		this.annee = annee;
+	public Integer getAnnee() {
+		if(StringUtils.isEmpty(periode)){
+			return null;
+		}else{
+			return Integer.valueOf(periode.split("/")[1]);
+		}
 	}
 	public User getUser() {
 		return User;
 	}
 	public void setUser(User user) {
 		User = user;
+	}
+	public String getPeriode() {
+		return periode;
+	}
+	public void setPeriode(String periode) {
+		this.periode = periode;
 	}
 }

@@ -36,8 +36,7 @@ public class UserDaoImpl implements UserDao {
 		user.setEnabled(true);
 		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		Role userRole = new Role();
-        userRole.setRole(RolesEnum.ROLE_USER.name());
+		Role userRole = getRoleByCode(RolesEnum.ROLE_USER.name());
 		user.getRoles().add(userRole);
 		sessionFactory.getCurrentSession().persist("User",
 				user);
@@ -62,5 +61,12 @@ public class UserDaoImpl implements UserDao {
 		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		sessionFactory.getCurrentSession().update(user);
+	}
+	
+	public Role getRoleByCode(String code){
+		Role role = (Role) sessionFactory.getCurrentSession()
+				.createCriteria(Role.class)
+				.add(Restrictions.like("role",code)).uniqueResult();
+		return role;
 	}
 }

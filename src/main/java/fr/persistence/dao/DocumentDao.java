@@ -2,9 +2,11 @@ package fr.persistence.dao;
 
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import fr.persistence.domain.Document;
 import fr.persistence.domain.TypeDocument;
-
+@Repository 
 public interface DocumentDao {
 	
 	public void addDocument(Document doc);

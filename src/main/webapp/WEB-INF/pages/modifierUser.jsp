@@ -49,14 +49,6 @@
 								placeholder="email" value ="${user.email}"/>
 						</div>
 					</div>
-					<div style="display:none";>
-										
-						<label for="datedenaissance" class="control-label">Date de naissance</label>
-						<div class="controls  date" id="datepicker" data-date="12/02/2012" data-date-format="dd/mm/yyyy">
-									<input type="text" size="16" id="datedenaissance" class="span2" name="datedenaissance" placeholder="datedenaissance" value= "" readonly/> 
-											<span class="add-on"><i class="icon-th"></i></span>
-										</div>																				
-									</div>
 				<div class="control-group">
 					<label for="password" class="control-label"><fmt:message key="accueil.enregistrement.motDePasse"/></label>
 					<div class="controls">

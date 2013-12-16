@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.amazonaws.services.s3.model.S3Object;
+
 import fr.persistence.dao.DocumentDao;
 import fr.persistence.domain.Document;
 import fr.persistence.domain.TypeDocument;
@@ -37,13 +39,24 @@ public class DocumentServiceImpl implements DocumentService {
 		String nomFile = date.getTime() + "_" + docForm.getFileData().getOriginalFilename();
 
 		document.setUser(docForm.getUser());
-		document.setMois(12);
-		document.setAnnee(2000);
+		document.setMois(docForm.getMois());
+		document.setAnnee(docForm.getAnnee());
 		document.setNomFichier(nomFile);
 		amazonS3Bucket.saveFileInbucket( docForm.getFileData(), nomFile);
 		documentDao.addDocument(document);
 	}
 
+	@Override
+	public S3Object loadDocument(Integer idDocument, String login)
+			throws IOException {
+		Document document = this.getDocument(idDocument, login);
+		if (document == null) {
+			return null;
+		} else {
+			return amazonS3Bucket.loadFileInbucket(document.getNomFichier());
+		}
+	}
+	
 	@Override
 	public void updateDocument(Document doc) {
 		documentDao.updateDocument(doc);

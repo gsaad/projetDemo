@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
+import com.amazonaws.services.s3.model.S3Object;
+
 import fr.persistence.domain.Document;
 import fr.persistence.domain.TypeDocument;
 import fr.web.form.DocumentForm;
@@ -50,5 +52,7 @@ public interface DocumentService {
 	 * @return
 	 */
 	public List<TypeDocument> findAllTypeDocument();
+
+	S3Object loadDocument(Integer idDocument, String login) throws IOException;
 	
 }

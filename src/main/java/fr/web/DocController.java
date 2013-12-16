@@ -1,6 +1,4 @@
 package fr.web;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -20,6 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.amazonaws.services.s3.model.S3Object;
+
 import fr.persistence.domain.Document;
 import fr.service.DocumentService;
 import fr.service.UserService;
@@ -37,47 +37,43 @@ public class DocController {
 	
 	@Autowired
 	private MessageSource messageSource;
-	
+
 	@RequestMapping(value = "/files", method = RequestMethod.GET)
 	@ResponseBody
-	public ModelAndView getFile(@RequestParam Integer idFile, HttpServletResponse resp, HttpServletRequest request, RedirectAttributes redirectAttributes){
-		Document document = documentService.getDocument(idFile, userService
-				.getCurrentUser().getLogin());
+	public ModelAndView getFile(@RequestParam Integer idFile,
+			HttpServletResponse resp, HttpServletRequest request,
+			RedirectAttributes redirectAttributes) {
 		ModelAndView mv = new ModelAndView("redirect:/listeDocs");
-		if(document == null){
-			redirectAttributes.addFlashAttribute("messageErreur", "fichier.download.erreur");
-			return mv;
-		}
-		File file = new File(document.getNomFichier());
-		InputStream inputStream = null;
-		OutputStream outputStream = null;
 		try {
-			inputStream = new FileInputStream(file);
-			String mimetype =  request.getSession().getServletContext().getMimeType(file.getName());
-		    resp.setContentType(mimetype);
+			S3Object objectS3 = documentService.loadDocument(idFile, userService.getCurrentUser().getLogin());
+			if (objectS3 == null) {
+				redirectAttributes.addFlashAttribute("messageErreur", "fichier.download.erreur");
+				return mv;
+			}
+			InputStream inputStream = objectS3.getObjectContent();
+			OutputStream outputStream = null;
+			String mimetype = objectS3.getObjectMetadata().getContentType();
+			resp.setContentType(mimetype);
 			outputStream = resp.getOutputStream();
-			resp.setContentType("application/octet-stream"); // .exe file
-			resp.setHeader("Content-Disposition", "attachment; filename=\""+ document.getNomFichier() + "\"");
+			resp.setContentType("application/octet-stream");
+			resp.setHeader("Content-Disposition", "attachment; filename=\"" + objectS3.getKey() + "\"");
 			byte[] buffer = new byte[1024];
 			int read = 0;
 			while ((read = inputStream.read(buffer)) != -1) {
 				outputStream.write(buffer, 0, read);
 			}
 			outputStream.flush();
-			
-			Long fileSize = file.length();
+			Long fileSize = objectS3.getObjectMetadata().getContentLength();
 			resp.setContentLength(fileSize.intValue());
-		} catch (IOException e) {
+		}catch (IOException e) {
 			e.printStackTrace();
-			redirectAttributes.addFlashAttribute("messageErreur", "fichier.download.erreur");
+			redirectAttributes.addFlashAttribute(
+			"messageErreur", "fichier.download.erreur");
 			return mv;
-		}finally{
-			//TODO
-			//close input/output
 		}
-		
 		return null;
 	}
+
 		
 	@RequestMapping(value="/addDocForm", method = RequestMethod.GET)
 	public String addDocument(ModelMap model) {
@@ -106,6 +102,7 @@ public class DocController {
 		if(StringUtils.isEmpty(documentForm.getIntituleDocument()) ||
 				documentForm.getIdTypeDocument() == null ||
 				documentForm.getFileData() == null ||
+				StringUtils.isEmpty(documentForm.getPeriode()) ||
 				documentForm.getFileData().getSize() ==0 ){
 			ModelAndView mav = new ModelAndView("redirect:/document/addDocForm");
 			redirectAttributes.addFlashAttribute("messageErreur", this.messageSource.getMessage("user.info.champs.obligatoire", null, null));
@@ -127,7 +124,7 @@ public class DocController {
 				redirectAttributes.addFlashAttribute("messageErreur", this.messageSource.getMessage(
 						"fichier.download.erreur",
 						new Object[] { documentForm
-								.getIntituleDocument() }, null));
+								.getIntituleDocument()}, null));
 				return mav;
 			}
 		}

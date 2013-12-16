@@ -4,4 +4,5 @@ body{background-color: #F7F7F6;}.login{padding-top: 20px;}.center{float: none; m
   min-height: 20px;
   padding: 19px;
   background-color: #f5f5f5;
+  text-align: center;
 }

@@ -21,6 +21,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import com.amazonaws.auth.policy.resources.S3BucketResource;
+import com.amazonaws.services.s3.model.S3Object;
+
 import fr.persistence.dao.DocumentDao;
 import fr.persistence.domain.Document;
 import fr.persistence.domain.TypeDocument;
@@ -111,8 +114,9 @@ public class DocumentServiceImplTest {
 		documentForm.setIdTypeDocument(1L);
 
 		MockMultipartFile mockFile = new MockMultipartFile("test.txt",
-				"Hallo World".getBytes());
+				"Hello World".getBytes());
 		documentForm.setFileData(mockFile);
+		documentForm.setPeriode("02/2013");
 
 		documentService.addDocument(documentForm);
 
@@ -143,5 +147,29 @@ public class DocumentServiceImplTest {
 		List<TypeDocument> listeTd = documentService.findAllTypeDocument();
 		assertEquals(1, listeTd.size());
 		verify(documentDao);
+	}
+	
+	@Test
+	public void testLoadDocument() throws IOException{
+		Document document = new Document();
+		document.setPk(1);
+		User user = new User();
+		user.setLogin("test");
+		document.setUser(user);
+		document.setIntitule("intitule1");
+		document.setNomFichier("fichier test.txt");
+		expect(documentDao.getDocument(1, "test")).andReturn(document);
+
+		S3Object s3Object = new S3Object();
+		s3Object.setBucketName("bucketTest");
+		expect(amazonS3Bucket.loadFileInbucket("fichier test.txt")).andReturn(s3Object);
+
+		replay(documentDao);
+		replay(amazonS3Bucket);
+		
+		S3Object s3object = documentService.loadDocument(1, "test");
+		assertEquals("bucketTest", s3object.getBucketName());
+		verify(documentDao);
+		verify(amazonS3Bucket);
 	}
 }
