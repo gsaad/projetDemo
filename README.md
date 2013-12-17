@@ -1,4 +1,4 @@
 projetDemo
 ==========
 
-initiation Spring
+initiation Spring et Amazon S3
