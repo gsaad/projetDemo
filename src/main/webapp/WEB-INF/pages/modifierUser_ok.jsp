@@ -25,7 +25,7 @@
 
   <div class="bs-example bs-example-tabs">
 		  <ul id="myTab" class="nav nav-tabs">
-			<li><a onclick="document.location.href = '<%=request.getContextPath()%>/listeDocs'" data-toggle="tab">La liste des documents</a></li>
+			<li><a onclick="document.location.href = '<%=request.getContextPath()%>/document/listeDocs'" data-toggle="tab">La liste des documents</a></li>
 			<li class="active"><a href="#user" data-toggle="tab">Mon compte</a></li>
 		  </ul>
 		  <div id="myTabContent" class="tab-content">

@@ -1,6 +1,7 @@
 package fr.service.impl;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import fr.persistence.dao.DocumentDao;
 import fr.persistence.domain.Document;
 import fr.persistence.domain.TypeDocument;
 import fr.service.AmazonS3Bucket;
+import fr.service.BusinessServiceException;
 import fr.service.DocumentService;
 import fr.web.form.DocumentForm;
 
@@ -28,9 +30,10 @@ public class DocumentServiceImpl implements DocumentService {
 	AmazonS3Bucket amazonS3Bucket;
 
 	@Override
-	public void addDocument(DocumentForm docForm) throws IOException {
+	public void addDocument(DocumentForm docForm) throws BusinessServiceException {
 		Document document = new Document();
-		document.setDateAjout(new Date().toLocaleString());
+		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+		document.setDateAjout(df.format(new Date()));
 		TypeDocument tp = new TypeDocument();
 		tp.setIdTypeDocument(docForm.getIdTypeDocument().intValue());
 		document.setTypeDocument(tp);
@@ -48,13 +51,12 @@ public class DocumentServiceImpl implements DocumentService {
 
 	@Override
 	public S3Object loadDocument(Integer idDocument, String login)
-			throws IOException {
+			throws BusinessServiceException {
 		Document document = this.getDocument(idDocument, login);
-		if (document == null) {
-			return null;
-		} else {
+		if (document != null) {
 			return amazonS3Bucket.loadFileInbucket(document.getNomFichier());
-		}
+		} 
+		throw new BusinessServiceException("Le document n'existe pas");
 	}
 	
 	@Override

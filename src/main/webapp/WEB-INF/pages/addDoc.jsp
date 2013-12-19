@@ -118,7 +118,7 @@ $(document).ready(function () {
 										<fmt:message key="accueil.enregistrement.btn.valider" />
 									</button>
 									<a
-										onclick="document.location.href = '<%=request.getContextPath()%>/listeDocs'">
+										onclick="document.location.href = '<%=request.getContextPath()%>/document/listeDocs'">
 										<button type="button" class="btn btn-primary">
 											<fmt:message key="accueil.enregistrement.btn.annuler" />
 										</button>

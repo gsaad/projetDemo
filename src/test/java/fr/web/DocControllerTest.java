@@ -32,6 +32,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 import fr.persistence.domain.Document;
 import fr.persistence.domain.TypeDocument;
 import fr.persistence.domain.User;
+import fr.service.BusinessServiceException;
 import fr.service.DocumentService;
 import fr.service.UserService;
 import fr.web.form.DocumentForm;
@@ -89,7 +90,7 @@ public class DocControllerTest extends AbstractJUnit4SpringContextTests {
 	}
 
 	@Test
-	public void testDeleteDocument() {
+	public void testDeleteDocument() throws BusinessServiceException {
 		User user = new User();
 		user.setLogin("login1");
 		expect(userService.getCurrentUser()).andReturn(user);
@@ -118,7 +119,7 @@ public class DocControllerTest extends AbstractJUnit4SpringContextTests {
 
 		RedirectAttributes redirectAttributes = new RedirectAttributesModelMap();
 		String view = docController.deleteDocument(1, redirectAttributes);
-		assertEquals("redirect:/listeDocs", view);
+		assertEquals("redirect:/document/listeDocs", view);
 		assertEquals(1, redirectAttributes.getFlashAttributes().size());
 		assertEquals("messageConfirmation", redirectAttributes
 				.getFlashAttributes().get("messageConfirmation"));
@@ -129,7 +130,7 @@ public class DocControllerTest extends AbstractJUnit4SpringContextTests {
 	}
 
 	@Test
-	public void testNouveauDocument_ErreurDonnees() {
+	public void testNouveauDocument_ErreurDonnees() throws BusinessServiceException {
 		IAnswer<String> answer = new IAnswer<String>() {
 			@Override
 			public String answer() throws Throwable {
@@ -154,7 +155,7 @@ public class DocControllerTest extends AbstractJUnit4SpringContextTests {
 	}
 
 	@Test
-	public void testNouveauDocument_DonneesOK() throws FileNotFoundException, IOException {
+	public void testNouveauDocument_DonneesOK() throws FileNotFoundException, IOException, BusinessServiceException {
 		documentService.addDocument(anyObject(DocumentForm.class));
 		EasyMock.expectLastCall().once();
 
@@ -181,7 +182,7 @@ public class DocControllerTest extends AbstractJUnit4SpringContextTests {
 		
 		ModelAndView mav = docController.nouveauDocument(documentForm,
 				redirectAttributes);
-		assertEquals("redirect:/listeDocs", mav.getViewName());
+		assertEquals("redirect:/document/listeDocs", mav.getViewName());
 		assertEquals(1, redirectAttributes.getFlashAttributes().size());
 		assertEquals("messageConfirmation", redirectAttributes
 				.getFlashAttributes().get("messageConfirmation"));

@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import com.amazonaws.regions.Region;
@@ -30,6 +31,7 @@ import fr.service.impl.AmazonS3BucketImpl;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/META-INF/applicationContext-test.xml" })
+@WebAppConfiguration
 public class AmazonS3BucketImplTest {
 	private AmazonS3Bucket amazonS3Bucket;
 
@@ -61,7 +63,7 @@ public class AmazonS3BucketImplTest {
 	}
 	
 	@Test 
-	public void testSaveFileInbucket() throws IOException{
+	public void testSaveFileInbucket() throws BusinessServiceException{
 		MockMultipartFile mockFile = new MockMultipartFile("test.txt",
 				"Hello World".getBytes());
 		PutObjectResult putResult = new PutObjectResult();

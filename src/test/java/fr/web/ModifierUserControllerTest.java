@@ -17,7 +17,6 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.persistence.domain.User;
@@ -121,6 +120,6 @@ public class ModifierUserControllerTest extends
 	@Test
 	public void cancel() {
 		String view = modifierUserController.cancel();
-		assertEquals("redirect:/listeDocs", view);
+		assertEquals("redirect:/document/listeDocs", view);
 	}
 }

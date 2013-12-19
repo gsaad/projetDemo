@@ -29,6 +29,7 @@ public interface UserService {
 	/**
 	 * recuperer l'utilisateur connecté à partir du context
 	 * @return l'utilisateur connecté
+	 * @throws UserNonAuthentifierException 
 	 */
     User getCurrentUser();
 

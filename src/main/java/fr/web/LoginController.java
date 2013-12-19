@@ -1,8 +1,6 @@
 package fr.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +24,7 @@ public class LoginController {
 	public ModelAndView login(RedirectAttributes redirectAttributes) {
 		fr.persistence.domain.User currentUser = userService.getCurrentUser();
 		if(currentUser!=null){
-			ModelAndView mv = new ModelAndView("redirect:/listeDocs");
+			ModelAndView mv = new ModelAndView("redirect:/document/listeDocs");
 	        return mv;
 		}else{
 			ModelAndView mv = new ModelAndView("accueilLogin");
@@ -45,7 +43,6 @@ public class LoginController {
 	
 	@RequestMapping(value="/logout", method = RequestMethod.GET)
 	public String logout(ModelMap model) {
- 
 		return "accueilLogin";
 	}
 }

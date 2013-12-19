@@ -6,7 +6,6 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,9 +16,6 @@ import javax.persistence.Table;
 @Table(name = "TYPE_DOCUMENT")
 public class TypeDocument implements Serializable{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 783081996646597759L;
 
 	@Column(name = "ID_TYPE_DOCUMENT", nullable = false)

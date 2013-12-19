@@ -14,26 +14,26 @@ import fr.service.DocumentService;
 import fr.service.UserService;
 
 @Controller
-@RequestMapping("/listeDocs")
+@RequestMapping("/document/listeDocs")
 public class ListeDocsController {
 
-    @Autowired
-    private UserService userService;
+	@Autowired
+	private UserService userService;
 
-    @Autowired
-    private DocumentService documentService;
-    
-    @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView display() {
-        ModelAndView mv = new ModelAndView("welcomeListeDocs");
-        List<Document> listDocs = documentService.findListDocumentByLogin(userService.getCurrentUser().getLogin());
-        if(listDocs == null){
-        	mv.addObject("listDocs", new ArrayList<Document>());
-        }else{
-        	mv.addObject("listDocs", listDocs);	
-        }
-        
-        return mv;
-    }
+	@Autowired
+	private DocumentService documentService;
 
+	@RequestMapping(method = RequestMethod.GET)
+	public ModelAndView display() {
+		ModelAndView mv = new ModelAndView("welcomeListeDocs");
+		List<Document> listDocs = documentService
+				.findListDocumentByLogin(userService.getCurrentUser()
+						.getLogin());
+		if (listDocs == null) {
+			mv.addObject("listDocs", new ArrayList<Document>());
+		} else {
+			mv.addObject("listDocs", listDocs);
+		}
+		return mv;
+	}
 }

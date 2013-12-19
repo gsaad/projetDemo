@@ -73,7 +73,7 @@ public class LoginControllerTest extends AbstractJUnit4SpringContextTests {
 		RedirectAttributes redirectAttr = new RedirectAttributesModelMap();
 		ModelAndView mav = loginController.login(redirectAttr);
 		verify(userService);
-		assertEquals("redirect:/listeDocs", mav.getViewName());
+		assertEquals("redirect:/document/listeDocs", mav.getViewName());
 	}
 
 	@Test

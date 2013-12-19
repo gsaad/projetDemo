@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 import fr.persistence.dao.DocumentDao;
 import fr.persistence.domain.Document;
 import fr.persistence.domain.TypeDocument;
-import fr.persistence.domain.User;
 @Repository
 public class DocumentDaoImpl implements DocumentDao {
 
@@ -54,6 +53,7 @@ public class DocumentDaoImpl implements DocumentDao {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<TypeDocument> findAllTypeDocument() {
 		Criteria critera = sessionFactory.getCurrentSession()
 				.createCriteria(TypeDocument.class);

@@ -6,7 +6,6 @@ import static org.easymock.EasyMock.reset;
 import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,10 +17,10 @@ import org.junit.runner.RunWith;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import com.amazonaws.auth.policy.resources.S3BucketResource;
 import com.amazonaws.services.s3.model.S3Object;
 
 import fr.persistence.dao.DocumentDao;
@@ -33,6 +32,7 @@ import fr.web.form.DocumentForm;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/META-INF/applicationContext-test.xml" })
+@WebAppConfiguration
 public class DocumentServiceImplTest {
 
 	private DocumentService documentService;
@@ -99,7 +99,7 @@ public class DocumentServiceImplTest {
 	}
 
 	@Test
-	public void testAddDocument() throws FileNotFoundException, IOException {
+	public void testAddDocument() throws BusinessServiceException {
 		documentDao.addDocument((Document) EasyMock.anyObject());
 		EasyMock.expectLastCall().once();
 
@@ -150,7 +150,7 @@ public class DocumentServiceImplTest {
 	}
 	
 	@Test
-	public void testLoadDocument() throws IOException{
+	public void testLoadDocument() throws BusinessServiceException {
 		Document document = new Document();
 		document.setPk(1);
 		User user = new User();

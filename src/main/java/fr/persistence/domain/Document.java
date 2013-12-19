@@ -14,15 +14,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "DOCUMENT")
 public class Document implements Serializable{
 	
-	private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = 516333672031779172L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

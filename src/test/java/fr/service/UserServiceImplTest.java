@@ -6,7 +6,6 @@ import static org.easymock.EasyMock.reset;
 import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,11 +15,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.GrantedAuthorityImpl;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import fr.persistence.dao.UserDao;
@@ -29,6 +29,7 @@ import fr.service.impl.UserServiceImpl;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/META-INF/applicationContext-test.xml" })
+@WebAppConfiguration
 public class UserServiceImplTest {
 
 	private UserService userService;
@@ -134,7 +135,7 @@ public class UserServiceImplTest {
 	@Test
 	public void testGetCurrentUser() {
 		List<GrantedAuthority> listeRole = new ArrayList<GrantedAuthority>();
-		listeRole.add(new GrantedAuthorityImpl("USER"));
+		listeRole.add(new SimpleGrantedAuthority("USER"));
 		UsernamePasswordAuthenticationToken username = new UsernamePasswordAuthenticationToken(
 				new org.springframework.security.core.userdetails.User(
 						"mockLogin", "", listeRole), null);

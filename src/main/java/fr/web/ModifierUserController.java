@@ -55,6 +55,6 @@ public class ModifierUserController {
 
     @RequestMapping(value = "/modifierUser/Cancel", method = RequestMethod.GET)
     public String cancel() {
-    	 return "redirect:/listeDocs";
+    	 return "redirect:/document/listeDocs";
     }
 }

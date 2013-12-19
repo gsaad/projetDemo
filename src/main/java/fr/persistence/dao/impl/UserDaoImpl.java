@@ -3,11 +3,9 @@ package fr.persistence.dao.impl;
 import java.util.Date;
 import java.util.List;
 
-import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
@@ -24,14 +22,14 @@ public class UserDaoImpl implements UserDao {
 	private SessionFactory sessionFactory;
 
 	@SuppressWarnings("unchecked")
-	public List<User> findAllUsers() throws HibernateException {
+	public List<User> findAllUsers() {
 		List<User> list = sessionFactory.getCurrentSession()
 				.createCriteria(User.class).list();
 		
 		return list;
 	}
 
-	public void createUser(User user) throws HibernateException {
+	public void createUser(User user) {
 		user.setCreationDate(new Date());;
 		user.setEnabled(true);
 		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -43,21 +41,21 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<User> findAllUserByLogin(String login) throws HibernateException {
+	public List<User> findAllUserByLogin(String login) {
 		List<User> list = sessionFactory.getCurrentSession()
 				.createCriteria(User.class)
 				.add(Restrictions.like("login",login+"%")).list();
 		return list;
 	}
 	
-	public User findUserByLogin(String login) throws HibernateException {
+	public User findUserByLogin(String login) {
 		User user = (User) sessionFactory.getCurrentSession()
 				.createCriteria(User.class)
 				.add(Restrictions.like("login",login)).uniqueResult();
 		return user;
 	}
 
-	public void updateUser(User user) throws HibernateException {
+	public void updateUser(User user)  {
 		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		sessionFactory.getCurrentSession().update(user);

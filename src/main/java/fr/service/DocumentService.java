@@ -13,12 +13,13 @@ import fr.web.form.DocumentForm;
 public interface DocumentService {
 	
 	/**
-	 *  ajouter un nouvau document
+	 *  ajouter un nouveau document
 	 * @param docFrom
 	 * @throws FileNotFoundException 
 	 * @throws IOException 
+	 * @throws BusinessServiceException 
 	 */
-	void addDocument(DocumentForm docFrom) throws FileNotFoundException, IOException;
+	void addDocument(DocumentForm docFrom) throws BusinessServiceException ;
 	
 	/**
 	 * maj des informations d'un document
@@ -53,6 +54,6 @@ public interface DocumentService {
 	 */
 	public List<TypeDocument> findAllTypeDocument();
 
-	S3Object loadDocument(Integer idDocument, String login) throws IOException;
+	S3Object loadDocument(Integer idDocument, String login) throws BusinessServiceException;
 	
 }
