@@ -65,13 +65,6 @@
             <artifactId>hibernate-validator</artifactId>
             <version>4.2.0.Final</version>
         </dependency>
-    <!--     <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.5.6</version>
-            
-        </dependency> -->
-   
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
@@ -159,11 +152,6 @@
 			<artifactId>dbunit</artifactId>
 			<version>2.4.8</version>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.tiles</groupId>
-			<artifactId>tiles-jsp</artifactId>
-			<version>2.1.4</version>
-		</dependency>
 		 <dependency>
             <groupId>struts-menu</groupId>
             <artifactId>struts-menu</artifactId>
@@ -195,6 +183,11 @@
             <artifactId>commons-fileupload</artifactId>
             <version>1.2.2</version>
         </dependency>
+          <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk</artifactId>
+            <version>1.5.8</version>
+        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
@@ -206,11 +199,6 @@
             <artifactId>slf4j-api</artifactId>
             <version>1.5.6</version>
             <scope>compile</scope>
-        </dependency>
-          <dependency>
-            <groupId>com.amazonaws</groupId>
-            <artifactId>aws-java-sdk</artifactId>
-            <version>1.5.8</version>
         </dependency>
     </dependencies>
 	<build>

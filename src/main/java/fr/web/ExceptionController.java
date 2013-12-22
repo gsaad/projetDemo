@@ -2,11 +2,12 @@ package fr.web;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.FlashMap;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.servlet.view.RedirectView;
@@ -19,9 +20,11 @@ import fr.service.BusinessServiceException;
 @ControllerAdvice
 @EnableWebMvc
 public class ExceptionController {
+	private final Log log = LogFactory.getLog(this.getClass());
 	
 	@ExceptionHandler(BusinessServiceException.class)
 	public RedirectView  handleBusinessServiceException(BusinessServiceException exception,   HttpServletRequest request) {
+		log.error(exception.getMessage());
 		RedirectView rw = new RedirectView("listeDocs");
 		FlashMap outputFlashMap = RequestContextUtils
 				.getOutputFlashMap(request);
@@ -34,6 +37,7 @@ public class ExceptionController {
 	
 	@ExceptionHandler({AmazonServiceException.class, AmazonClientException.class})
 	public RedirectView  handleAmazonException(Exception exception, HttpServletRequest request) {
+		log.error(exception.getMessage());
 		RedirectView rw = new RedirectView("listeDocs");
 		FlashMap outputFlashMap = RequestContextUtils
 				.getOutputFlashMap(request);
@@ -44,6 +48,7 @@ public class ExceptionController {
 	}
 	@ExceptionHandler({MaxUploadSizeExceededException.class})
 	public RedirectView  handleMaxUploadSizeExceededException(MaxUploadSizeExceededException exception, HttpServletRequest request) {
+		log.error(exception.getMessage());
 		RedirectView rw = new RedirectView("addDocForm");
 		FlashMap outputFlashMap = RequestContextUtils
 				.getOutputFlashMap(request);
