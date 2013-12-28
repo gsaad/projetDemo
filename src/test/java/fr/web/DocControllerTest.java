@@ -7,8 +7,12 @@ import static org.easymock.EasyMock.reset;
 import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -19,6 +23,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
@@ -28,6 +34,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
+
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.model.S3ObjectInputStream;
 
 import fr.persistence.domain.Document;
 import fr.persistence.domain.TypeDocument;
@@ -67,8 +77,31 @@ public class DocControllerTest extends AbstractJUnit4SpringContextTests {
 		reset(messageSource);
 	}
 
-	public void testGetFile() {
-		 //docController.getFile(idFile, resp, request, redirectAttributes);
+	@Test
+	public void testGetFile() throws BusinessServiceException, IOException {
+		
+		User user = new User();
+		user.setLogin("login1");
+		String texteFile = "texte test";
+		S3Object s3Object = new S3Object();
+		s3Object.setKey("fichier1");
+		ObjectMetadata metadata = new ObjectMetadata();
+		metadata.setContentLength(texteFile.length());
+		s3Object.setObjectMetadata(metadata);
+		InputStream in = new ByteArrayInputStream(texteFile.getBytes("UTF-8"));  
+		s3Object.setObjectContent(new S3ObjectInputStream(in, null));
+		expect(documentService.loadDocument(1, "login1")).andReturn(s3Object);
+		expect(userService.getCurrentUser()).andReturn(user);
+		
+		replay(documentService);
+		replay(userService);
+		
+		MockHttpServletResponse resp = new MockHttpServletResponse();
+		docController.getFile(1, resp);
+		assertEquals(10, resp.getContentLength());
+		
+		verify(documentService);
+		verify(userService);
 	}
 	
 	@Test

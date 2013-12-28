@@ -3,7 +3,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,8 +41,7 @@ public class DocController {
 	@RequestMapping(value = "/files", method = RequestMethod.GET)
 	@ResponseBody
 	public void getFile(@RequestParam Integer idFile,
-			HttpServletResponse resp, HttpServletRequest request,
-			RedirectAttributes redirectAttributes) throws BusinessServiceException, IOException {
+			HttpServletResponse resp) throws BusinessServiceException, IOException {
 		S3Object objectS3 = documentService.loadDocument(idFile, userService
 				.getCurrentUser().getLogin());
 		InputStream inputStream = objectS3.getObjectContent();
