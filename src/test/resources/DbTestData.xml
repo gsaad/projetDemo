@@ -6,7 +6,7 @@
     	email ="email_login"
     	firstName="firstname_login"
     	lastName="lastname_login"
-    	password="$2a$10$9s78mxislH/M7uzOYTJ5AO/9OInxoEHorPIbBOBVKUOntYcpNaY/y"
+    	password="$2a$10$zANbW.iBIH3frQoEz7dtROdUY0B7vlu5zA0Fsi/7Z6yevwz04Zwp."
     	enabled="1"
     	/>
     	
@@ -15,7 +15,7 @@
     	email ="email_login1@test.fr"
     	firstName="firstname_login1"
     	lastName="lastname_login1"
-    	password="$2a$10$9s78mxislH/M7uzOYTJ5AO/9OInxoEHorPIbBOBVKUOntYcpNaY/y"
+    	password="$2a$10$zANbW.iBIH3frQoEz7dtROdUY0B7vlu5zA0Fsi/7Z6yevwz04Zwp."
     	enabled="1"
     	/>
 		<tuser
@@ -23,7 +23,7 @@
     	email ="email_login2"
     	firstName="firstname_login2"
     	lastName="lastname_login2"
-    	password="$2a$10$9s78mxislH/M7uzOYTJ5AO/9OInxoEHorPIbBOBVKUOntYcpNaY/y"
+    	password="$2a$10$zANbW.iBIH3frQoEz7dtROdUY0B7vlu5zA0Fsi/7Z6yevwz04Zwp."
     	enabled="0"
     	/>
     	
@@ -32,7 +32,7 @@
     	email ="email_login3"
     	firstName="firstname_login3"
     	lastName="lastname_login3"
-    	password="$2a$10$9s78mxislH/M7uzOYTJ5AO/9OInxoEHorPIbBOBVKUOntYcpNaY/y"
+    	password="$2a$10$zANbW.iBIH3frQoEz7dtROdUY0B7vlu5zA0Fsi/7Z6yevwz04Zwp."
     	enabled="0"
     	/>
     	
@@ -41,7 +41,7 @@
     	email ="email_login4"
     	firstName="firstname_login4"
     	lastName="lastname_login4"
-    	password="$2a$10$9s78mxislH/M7uzOYTJ5AO/9OInxoEHorPIbBOBVKUOntYcpNaY/y"
+    	password="$2a$10$zANbW.iBIH3frQoEz7dtROdUY0B7vlu5zA0Fsi/7Z6yevwz04Zwp."
     	enabled="0"
     	/>    	
 	<role
