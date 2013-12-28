@@ -13,16 +13,20 @@
               					http://www.springframework.org/schema/mvc
                            http://www.springframework.org/schema/mvc/spring-mvc.xsd">
                                  
-
+	<!-- activer les annotations -->
 	<context:annotation-config />
+	
+	<!-- scan des annotations -->
 	<context:component-scan base-package="fr.service"/>
 	<context:component-scan base-package="fr.web"/>
     <context:component-scan base-package="fr.security"/>
     
     <global-method-security secured-annotations="enabled"/>
+    <!-- Ressources statiques -->
     <mvc:resources mapping="/resources/**" location="/resources/" />
+    
 	<!-- <mvc:annotation-driven /> -->
-	
+	<!-- configuration de l'authentification avec spring security -->
 	<http >
 		<intercept-url pattern="/resources/**" access="ROLE_ANONYMOUS,ROLE_USER" />	
 		<intercept-url pattern="/document/**" access="ROLE_ANONYMOUS,ROLE_USER" />		
@@ -41,6 +45,7 @@
 		 <!-- <access-denied-handler error-page="/loginfailed"/>  -->
 	</http>
 	
+	<!-- encodage du password + renforcer la sécurité avec le salage -->
   <beans:bean id="bCryptPasswordEncoder" class='org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder'/>
   
   <authentication-manager alias="authenticationManager">

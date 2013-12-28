@@ -12,15 +12,20 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
-	
+ <!-- Activer les annotations -->
  <context:annotation-config />
+ 
+ <!-- parse les annotations dans les répertoires suivants -->
  <context:component-scan base-package="fr.persistence.dao"/>
- <tx:annotation-driven/>
+ 
+ <!-- Le gestionnaire de transaction -->
+ <tx:annotation-driven transaction-manager="transactionManager"/>
 
 	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 	 	<property name="sessionFactory" ref="sessionFactory"></property>
 	 </bean>
 
+	<!-- Configuration Hibernate -->
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
@@ -41,6 +46,7 @@
 		</property>
 	</bean>
  
+ <!-- Datasource -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
 		<property name="driverClassName" value="${db.driver}" />
 		<property name="url" value="${db.url}" />

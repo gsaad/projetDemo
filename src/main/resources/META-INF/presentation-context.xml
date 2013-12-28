@@ -16,6 +16,7 @@
 		<beans:property name="defaultEncoding" value="ISO-8859-1" />
 	</beans:bean>
 	
+	<!-- upload file  -->
 	 <beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <!-- one of the properties available; the maximum file size in bytes -->
         <beans:property name="maxUploadSize" value="1000000"/>        
