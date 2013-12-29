@@ -3,6 +3,7 @@ package fr.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -39,12 +40,17 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public User getCurrentUser() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
-        Object userObject = securityContext.getAuthentication().getPrincipal();
-         if(userObject!=null && userObject instanceof org.springframework.security.core.userdetails.User){
-        	return this.findUser(((org.springframework.security.core.userdetails.User) userObject).getUsername());	 
-         }else{
-        	return null;
-         }
+        Authentication auth = securityContext.getAuthentication();
+        if (auth == null) {
+            return null;
+        } else {
+	         Object userObject = auth.getPrincipal();
+	         if(userObject!=null && userObject instanceof org.springframework.security.core.userdetails.User){
+	        	return this.findUser(((org.springframework.security.core.userdetails.User) userObject).getUsername());	 
+	         }else{
+	        	return null;
+	         }
+        }
     }
 
     public void updateUser(User user) {
