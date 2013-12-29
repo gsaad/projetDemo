@@ -36,6 +36,7 @@ public class UserDaoImpl implements UserDao {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		Role userRole = getRoleByCode(RolesEnum.ROLE_USER.name());
 		user.getRoles().add(userRole);
+		user.setLogin(user.getLogin().toLowerCase());
 		sessionFactory.getCurrentSession().persist("User",
 				user);
 	}
