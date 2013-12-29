@@ -6,7 +6,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import fr.service.DocumentService;
 import fr.service.UserService;
@@ -21,7 +20,7 @@ public class LoginController {
 	DocumentService documentService;
  
 	@RequestMapping(value="/login", method = RequestMethod.GET)
-	public ModelAndView login(RedirectAttributes redirectAttributes) {
+	public ModelAndView login() {
 		fr.persistence.domain.User currentUser = userService.getCurrentUser();
 		if(currentUser!=null){
 			ModelAndView mv = new ModelAndView("redirect:/document/listeDocs");
