@@ -54,6 +54,13 @@ public interface DocumentService {
 	 */
 	public List<TypeDocument> findAllTypeDocument();
 
+	/**
+	 * charger un document à partir du bucket amazon
+	 * @param idDocument
+	 * @param login
+	 * @return
+	 * @throws BusinessServiceException
+	 */
 	S3Object loadDocument(Integer idDocument, String login) throws BusinessServiceException;
 	
 }
