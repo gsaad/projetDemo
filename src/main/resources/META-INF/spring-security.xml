@@ -29,7 +29,7 @@
 	<!-- configuration de l'authentification avec spring security -->
 	<http >
 		<intercept-url pattern="/resources/**" access="ROLE_ANONYMOUS,ROLE_USER" />	
-		<intercept-url pattern="/document/**" access="ROLE_ANONYMOUS,ROLE_USER" />		
+		<intercept-url pattern="/document/**" access="ROLE_USER" />		
 		<intercept-url pattern="/login*" access="ROLE_ANONYMOUS,ROLE_USER" />
 		<intercept-url pattern="/register" access="ROLE_ANONYMOUS" />
 		<intercept-url pattern="/**" access="ROLE_USER" />
