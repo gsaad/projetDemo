@@ -1,39 +1,19 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Application</title>
 	<jsp:include page="head.jsp" />
 <script>
 
 $(document).ready(function () {
-	$('input[id=lefile]').change(function() {
-			$('#photoCover').val($(this).val());
-		});
-		$("#datep").datepicker();
+	$('input[type=file]').bootstrapFileInput();
+	$('.file-inputs').bootstrapFileInput();
+	$("#datep").datepicker();
 	});
 </script>
-	<script type="text/javascript" charset="utf-8">
-		$(document).ready(function() {
-			$('#example').dataTable( {
-				"aaSorting": [[ 4, "desc" ]],
-			 	"oLanguage": {
-		        	 "sSearch": "Rechercher",
-		        	 "sZeroRecords" : "La liste est vide",
-		        	 "oPaginate": {
-		        		 "sNext" : "Suivant",
-			        	 "sPrevious" : "Précédent"
-		        	 },
-		        	 "sInfo" :"_START_ à _END_ sur _TOTAL_ documents",
-		        	 "sLengthMenu" : "_MENU_ documents",
-		       	}
-			} );
-		} );
-	</script>
 </head>
 	<!-- Navigation Bar -->
 	<div class="navbar navbar-inverse navbar-fixed-top">
@@ -62,20 +42,20 @@ $(document).ready(function () {
 						</div>
 						<c:if test="${messageErreur != null && not empty messageErreur}">
 							<div class="alert alert-error">
-								<a class="close" data-dismiss="alert" href="#">×</a>
+								<a class="close" data-dismiss="alert" href="#">Ã—</a>
 								<c:out value=" ${messageErreur}"></c:out>
 							</div>
 						</c:if>
-						<form method="POST"
+						<form method="POST" 
 							action="<%=request.getContextPath()%>/document/addDocForm"
-							accept-charset="UTF-8" id="documentForm"
+							accept-charset="UTF-8" id="documentForm" name="document"
 							enctype="multipart/form-data" class="form-horizontal">
 							<div class="control-group">
 								<label for="intituleDocument" class="control-label"><fmt:message key="listeDocument.intitule"/></label>
 								<div class="controls">	
 									<input id="intitule" name="intituleDocument" type="text"
 										class="span3"
-										placeholder="" />
+										placeholder="" value="${documentForm.intituleDocument}"/>
 									</div>
 							</div>
 							<div class="control-group">
@@ -90,7 +70,7 @@ $(document).ready(function () {
 								</div>
 							</div>
 							<div class="control-group">
-								<label for="periode" class="control-label">Période de référence</label>
+								<label for="periode" class="control-label">PÃ©riode de rÃ©fÃ©rence</label>
 								<div class="controls">
 									<div data-date-minviewmode="months" data-date-viewmode="months"  id="datep" 
 										data-date-format="mm/yyyy" data-date="12/2014" 
@@ -102,28 +82,20 @@ $(document).ready(function () {
 								</div>	
 							</div>
 							<div class="control-group">
-							<label for="fileData" class="control-label">Rechercher un fichier</label>
 								<div class="controls">
-									<input id="lefile" type="file" style="display: none"
-										name="fileData">
-									<div class="input-append">
-										<input id="photoCover" class="span2" type="text" disabled>
-										<a class="btn" onclick="$('input[id=lefile]').click();">Ajouter
-											un fichier</a>
-									</div>
+									<input type="file" name="fileData" title="Ajouter un fichier">
 								</div>	
 							</div>
-								<div class="controls">
-									<button type="submit" name="submit" class="btn btn-primary">
-										<fmt:message key="accueil.enregistrement.btn.valider" />
-									</button>
-									<a
-										onclick="document.location.href = '<%=request.getContextPath()%>/document/listeDocs'">
+							<div class="controls">
+										<button type="submit" class="btn btn-primary" >
+											<fmt:message key="accueil.enregistrement.btn.valider" />
+										</button>
+									<a onclick="document.location.href = '<%=request.getContextPath()%>/document/listeDocs'">
 										<button type="button" class="btn btn-primary">
 											<fmt:message key="accueil.enregistrement.btn.annuler" />
 										</button>
 									</a>
-								</div>
+							</div>
 						</form>
 					</div>
 				</div>
