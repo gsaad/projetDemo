@@ -19,6 +19,7 @@ Les différents frameworks qui seront utilisés dans l'implémentation du projet
 - Base de données mysql
 - Une plateforme d'intégration continue sous cloudBees (Jenkins)
 - git pour le versionning des sources
+- Selenium/PhantomJs pour les tests d'intégration
 
 L'application est accessible depuis http://projetdemo.gmirasaad.cloudbees.net/
 
