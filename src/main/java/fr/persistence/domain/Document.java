@@ -118,10 +118,6 @@ public class Document implements Serializable{
 		}
 	}
 
-	public void setLibelleMois(String libelleMois) {
-		this.libelleMois = libelleMois;
-	}
-
 	public User getUser() {
 		return user;
 	}
@@ -140,8 +136,6 @@ public class Document implements Serializable{
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())

@@ -24,36 +24,29 @@ public class ExceptionController {
 	
 	@ExceptionHandler(BusinessServiceException.class)
 	public RedirectView  handleBusinessServiceException(BusinessServiceException exception,   HttpServletRequest request) {
-		log.error(exception.getMessage());
-		RedirectView rw = new RedirectView("listeDocs");
-		FlashMap outputFlashMap = RequestContextUtils
-				.getOutputFlashMap(request);
-		if (outputFlashMap != null) {
-			outputFlashMap.put("messageErreur", exception.getMessage());
-		}
-		return rw;
+		return construireRedirectView(exception, request,"listeDocs" , exception.getMessage());
 	}
 	
 	
 	@ExceptionHandler({AmazonServiceException.class, AmazonClientException.class})
 	public RedirectView  handleAmazonException(Exception exception, HttpServletRequest request) {
-		log.error(exception.getMessage());
-		RedirectView rw = new RedirectView("listeDocs");
-		FlashMap outputFlashMap = RequestContextUtils
-				.getOutputFlashMap(request);
-		if (outputFlashMap != null) {
-			outputFlashMap.put("messageErreur", "Impossible d'accéder au service de stockage");
-		}
-		return rw;
+		String message = "Impossible d'accéder au service de stockage";
+		return construireRedirectView(exception, request,"listeDocs" , message);
 	}
 	@ExceptionHandler({MaxUploadSizeExceededException.class})
 	public RedirectView  handleMaxUploadSizeExceededException(MaxUploadSizeExceededException exception, HttpServletRequest request) {
+		String message = "Veuillez saisir un fichier de moins de : "+ (exception.getMaxUploadSize()/(1000*1000)) + "Mo";
+		return construireRedirectView(exception, request,"addDocForm" , message);
+	}
+
+	private RedirectView construireRedirectView(
+			Exception exception, HttpServletRequest request,String view, String message) {
 		log.error(exception.getMessage());
-		RedirectView rw = new RedirectView("addDocForm");
+		RedirectView rw = new RedirectView(view);
 		FlashMap outputFlashMap = RequestContextUtils
 				.getOutputFlashMap(request);
 		if (outputFlashMap != null) {
-			outputFlashMap.put("messageErreur", "Veuillez saisir un fichier de moins de : "+ (exception.getMaxUploadSize()/(1000*1000)) + "Mo");
+			outputFlashMap.put("messageErreur", message);
 		}
 		return rw;
 	}

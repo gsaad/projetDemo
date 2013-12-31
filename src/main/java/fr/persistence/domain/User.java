@@ -142,6 +142,9 @@ public class User implements Serializable{
     }
 
     public Set<Role> getRoles() {
+    	if(roles == null){
+    		roles = new HashSet<Role>();
+    	}
         return roles;
     }
 
@@ -159,8 +162,6 @@ public class User implements Serializable{
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
@@ -169,7 +170,7 @@ public class User implements Serializable{
 		if (login == null) {
 			if (other.login != null)
 				return false;
-		} else if (!login.equals(other.login))
+		} else if (!login.toLowerCase().equals(other.login.toLowerCase()))
 			return false;
 		return true;
 	}

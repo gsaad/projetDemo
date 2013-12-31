@@ -161,6 +161,21 @@ public class DocControllerTest extends AbstractJUnit4SpringContextTests {
 		verify(messageSource);
 
 	}
+	
+	
+	@Test(expected=BusinessServiceException.class)
+	public void testDeleteDocument_documentNotExist() throws BusinessServiceException {
+		User user = new User();
+		user.setLogin("login1");
+		expect(userService.getCurrentUser()).andReturn(user);
+		expect(documentService.getDocument(1, "login1")).andReturn(null);
+		
+		replay(userService);
+		replay(documentService);
+
+		RedirectAttributes redirectAttributes = new RedirectAttributesModelMap();
+		docController.deleteDocument(1, redirectAttributes);
+	}
 
 	@Test
 	public void testNouveauDocument_ErreurDonnees() throws BusinessServiceException {

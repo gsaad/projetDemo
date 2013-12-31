@@ -32,6 +32,12 @@ public class DocumentServiceImpl implements DocumentService {
 	@Override
 	public void addDocument(DocumentForm docForm) throws BusinessServiceException {
 		Document document = new Document();
+		String nomFile = initialiserDocument(docForm, document);
+		amazonS3Bucket.saveFileInbucket( docForm.getFileData(), nomFile);
+		documentDao.addDocument(document);
+	}
+
+	private String initialiserDocument(DocumentForm docForm, Document document) {
 		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy hh:mm");
 		document.setDateAjout(df.format(new Date()));
 		TypeDocument tp = new TypeDocument();
@@ -45,8 +51,7 @@ public class DocumentServiceImpl implements DocumentService {
 		document.setMois(docForm.getMois());
 		document.setAnnee(docForm.getAnnee());
 		document.setNomFichier(nomFile);
-		amazonS3Bucket.saveFileInbucket( docForm.getFileData(), nomFile);
-		documentDao.addDocument(document);
+		return nomFile;
 	}
 
 	@Override
